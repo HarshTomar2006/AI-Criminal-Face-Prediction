@@ -4,8 +4,8 @@ import torch
 import numpy as np
 from PIL import Image
 
-# Add path to stylegan2-ada-pytorch
-stylegan_path = "C:/Users/harsh/Desktop/CriminalFace/stylegan2-ada-pytorch"
+# Add path to stylegan2-ada-pytorch (adjust this if needed)
+stylegan_path = os.path.join(os.getcwd(), "stylegan2-ada-pytorch")
 sys.path.append(stylegan_path)
 
 # Suppress Streamlit and Torch warnings
@@ -25,9 +25,20 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # --- Load StyleGAN2-ADA Model ---
 print("✅ Loading StyleGAN2-ADA model...")
 
-model_path = os.path.join("models", "ffhq.pkl")
+model_dir = "models"
+model_path = os.path.join(model_dir, "ffhq.pkl")
+model_url = "https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/ffhq.pkl"
+
 if not os.path.exists(model_path):
-    raise FileNotFoundError(f"❌ Model not found at path: {model_path}")
+    print("⬇️ ffhq.pkl not found, downloading...")
+    os.makedirs(model_dir, exist_ok=True)
+    import requests
+    response = requests.get(model_url, stream=True)
+    with open(model_path, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+    print("✅ Download complete!")
 
 with open(model_path, 'rb') as f:
     G = legacy.load_network_pkl(f)['G_ema'].to(device)
@@ -47,7 +58,7 @@ def generate_face(dna_data):
     """
     try:
         latent = np.random.randn(512) * 0.5
-        latent[:5] = dna_data  # Overwrite with DNA
+        latent[:5] = dna_data  # Overwrite with DNA traits
 
         z = torch.from_numpy(latent).unsqueeze(0).to(device).float()
 
