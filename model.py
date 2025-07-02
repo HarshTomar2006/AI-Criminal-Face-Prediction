@@ -23,12 +23,16 @@ except ImportError as e:
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # --- Load StyleGAN2-ADA Model ---
+print("✅ Loading StyleGAN2-ADA model...")
+
 model_path = os.path.join("models", "ffhq.pkl")
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"❌ Model not found at path: {model_path}")
 
 with open(model_path, 'rb') as f:
     G = legacy.load_network_pkl(f)['G_ema'].to(device)
+
+print("✅ Model loaded successfully!")
 
 # --- Main Generate Face Function ---
 def generate_face(dna_data):
@@ -56,3 +60,11 @@ def generate_face(dna_data):
     except Exception as e:
         print(f"❌ Error in generate_face: {e}")
         return Image.new("RGB", (512, 512), (255, 0, 0))  # Red fallback
+
+# --- Test Generation Block ---
+if __name__ == "__main__":
+    print("🔍 Running test generation...")
+    sample_dna = np.array([0.1, 0.5, 0.8, 0.3, 0.9], dtype=np.float32)
+    face = generate_face(sample_dna)
+    face.save("test_output.jpg")
+    print("✅ Face generated and saved as 'test_output.jpg'")
