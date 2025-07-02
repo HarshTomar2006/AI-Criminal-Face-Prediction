@@ -2,12 +2,8 @@ import streamlit as st
 import numpy as np
 import random
 import os
-os.environ["STREAMLIT_DISABLE_WATCHDOG_WARNINGS"] = "true"
-os.environ["PYTORCH_JIT"] = "0"  # Optional, for torch scripting
-
-
 from PIL import Image
-from model import generate_face  # Now uses real GAN
+from model import generate_face
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
@@ -16,17 +12,21 @@ from dashboard import show_dashboard
 from history import save_history
 from chatbot import chatbot_ui
 
-# Initialize session
+# --- Environment Setup ---
+os.environ["STREAMLIT_DISABLE_WATCHDOG_WARNINGS"] = "true"
+os.environ["PYTORCH_JIT"] = "0"  # Optional: For torch scripting
+
+# --- Session Initialization ---
 if "user" not in st.session_state:
     st.session_state["user"] = None
 
-# Login required
+# --- Login Page ---
 if not st.session_state["user"]:
     login()
-    chatbot_ui()  # Show chatbot even on login page
+    chatbot_ui()  # Show chatbot on login
     st.stop()
 
-# Show chatbot always after login
+# --- Show Chatbot Always ---
 chatbot_ui()
 
 # --- PDF Report Generator ---
@@ -52,11 +52,11 @@ def generate_pdf(face_image, traits):
     buffer.seek(0)
     return buffer
 
-# --- Session Setup ---
+# --- History Initialization ---
 if "history" not in st.session_state:
     st.session_state["history"] = []
 
-# --- Holi Styling ---
+# --- Styling ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
@@ -78,11 +78,12 @@ h1 {
 </style>
 """, unsafe_allow_html=True)
 
+# --- Title, Banner, Audio ---
 st.title("\U0001F3A8 Holi Special AI Criminal Face Prediction \U0001F9EC")
-st.image("https://www.shutterstock.com/image-vector/happy-holi-festival-colors-background-600nw-2142910233.jpg", width=600)
+st.image("https://www.shutterstock.com/image-vector/happy-holi-festival-colors-background-600nw-2142910233.jpg", use_container_width=True)
 st.audio("https://www.fesliyanstudios.com/play-mp3/387", format="audio/mp3")
 
-# --- Trait Legend ---
+# --- DNA Trait Legend ---
 st.markdown("""
 ### \U0001F3AF Trait Legend (Simulated Genetic Markers)
 | Gene     | Trait         | 0 = Min | 1 = Max |
@@ -94,7 +95,7 @@ st.markdown("""
 | EDAR     | Face Shape    | Round  | Angular |
 """, unsafe_allow_html=True)
 
-# --- Input DNA ---
+# --- Input Section ---
 if st.checkbox("\U0001F4A1 Load Sample DNA"):
     dna_samples = [
         [0.2, 0.3, 0.9, 0.8, 0.4],
@@ -113,14 +114,12 @@ else:
 
 dna_data = np.array([oca2, herc2, mc1r, slc24a5, edar])
 
-# --- Generate Face ---
-print("\U0001F9EC Calling generate_face with:", dna_data)
-
+# --- Face Generation ---
 if st.button("\U0001F389 Generate Face \U0001F3AD"):
     try:
         st.info("\U0001F9E0 Generating Face from DNA...")
         face = generate_face(dna_data)
-        st.image(face, caption="\U0001F31F Predicted Face \U0001F31F", use_column_width=True)
+        st.image(face, caption="\U0001F31F Predicted Face \U0001F31F", use_container_width=True)
 
         traits_dict = {
             "OCA2 (Eye Color)": oca2,
@@ -132,15 +131,15 @@ if st.button("\U0001F389 Generate Face \U0001F3AD"):
 
         st.subheader("\U0001F9EC Trait Summary")
         for trait, val in traits_dict.items():
-            st.markdown(f"**{trait}:** {val:.2f}")
+            st.markdown(f"{trait}:** {val:.2f}")
 
-        # Save to history
+        # Save to session history
         st.session_state["history"].append((face, traits_dict))
 
-        # Save to persistent history with username
+        # Save to persistent history
         save_history(st.session_state["user"], dna_data.tolist())
 
-        # PDF download
+        # PDF Report
         pdf = generate_pdf(face, traits_dict)
         st.download_button(
             label="\U0001F4C4 Download PDF Report",
@@ -152,14 +151,14 @@ if st.button("\U0001F389 Generate Face \U0001F3AD"):
     except Exception as e:
         st.error(f"\u274C Error generating face: {e}")
 
-# --- History ---
+# --- History Viewer ---
 if st.checkbox("\U0001F553 Show History"):
     for idx, (img, traits) in enumerate(st.session_state["history"]):
         st.markdown(f"### \U0001F539 Face #{idx + 1}")
-        st.image(img, width=300)
+        st.image(img, use_container_width=True)
         for k, v in traits.items():
-            st.markdown(f"- **{k}:** {v:.2f}")
+            st.markdown(f"- *{k}:* {v:.2f}")
 
-# --- Dashboard Link ---
+# --- Dashboard ---
 if st.sidebar.button("\U0001F4C1 View Dashboard"):
     show_dashboard(st.session_state["user"])

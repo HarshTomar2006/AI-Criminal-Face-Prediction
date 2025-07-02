@@ -5,26 +5,32 @@ import numpy as np
 from PIL import Image
 
 # Add path to stylegan2-ada-pytorch
-sys.path.append(os.path.join(os.path.dirname(__file__), 'stylegan2-ada-pytorch'))
-import dnnlib
-import legacy
+stylegan_path = "C:/Users/harsh/Desktop/CriminalFace/stylegan2-ada-pytorch"
+sys.path.append(stylegan_path)
 
 # Suppress Streamlit and Torch warnings
 os.environ["STREAMLIT_DISABLE_WATCHDOG_WARNINGS"] = "true"
 os.environ["PYTORCH_JIT"] = "0"
 
+# Import StyleGAN2-ADA modules
+try:
+    import dnnlib
+    import legacy
+except ImportError as e:
+    raise ImportError(f"❌ Failed to import StyleGAN modules: {e}")
+
 # Device config
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Load StyleGAN2-ADA model
+# --- Load StyleGAN2-ADA Model ---
 model_path = os.path.join("models", "ffhq.pkl")
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"❌ Model not found at path: {model_path}")
 
-# Load once globally
 with open(model_path, 'rb') as f:
     G = legacy.load_network_pkl(f)['G_ema'].to(device)
 
+# --- Main Generate Face Function ---
 def generate_face(dna_data):
     """
     Generate a face image from DNA-like input vector.
@@ -36,9 +42,8 @@ def generate_face(dna_data):
         PIL.Image: Generated face image
     """
     try:
-        # Create 512-d latent vector, inject DNA traits
         latent = np.random.randn(512) * 0.5
-        latent[:5] = dna_data  # Overwrite first 5 components
+        latent[:5] = dna_data  # Overwrite with DNA
 
         z = torch.from_numpy(latent).unsqueeze(0).to(device).float()
 
@@ -50,6 +55,4 @@ def generate_face(dna_data):
 
     except Exception as e:
         print(f"❌ Error in generate_face: {e}")
-        # Return fallback dummy image
-        fallback = Image.new("RGB", (512, 512), (255, 0, 0))  # Red dummy
-        return fallback
+        return Image.new("RGB", (512, 512), (255, 0, 0))  # Red fallback
