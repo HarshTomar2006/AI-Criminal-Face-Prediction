@@ -38,15 +38,15 @@ This project merges **Genomics + AI + GANs** to **predict criminal facial traits
 
 ---
 
-## 📸 Demo Screenshot
+## 📸 Demo Screenshots
 
-![Demo Interface](https://github.com/HarshTomar2006/AI-Criminal-Face-Prediction/assets/demo-ui.png)
+📂 [Click here to view all screenshots](https://drive.google.com/drive/folders/1g3yyoEtEZJEemaFC21WBFfRBbcl4In3_?usp=drive_link)
 
 ---
 
-## 📽️ Demo Video (Add after uploading)
+## 📽️ Demo Video
 
-> 🎥 [Link to demo video](#) (Upload on YouTube or Drive)
+🎥 [Watch Project Demo](https://drive.google.com/file/d/1_pVawRp8kvi6jc7gDnDQhCxMKNRFQ-rP/view?usp=drive_link)
 
 ---
 
@@ -62,26 +62,26 @@ This project merges **Genomics + AI + GANs** to **predict criminal facial traits
 
 ## 🧪 How It Works
 
-1. 🧬 User selects traits (or uploads dummy DNA markers)
-2. 🧠 Traits mapped to visual properties (hair color, face structure, etc.)
-3. 🧑‍🎨 GAN generates realistic face
-4. 📑 Generates a PDF report
-5. 💾 Saves all data to case history
-6. 🗣️ Chatbot explains what was predicted & why
+1. 🧬 User selects traits (or uploads dummy DNA markers)  
+2. 🧠 Traits mapped to visual properties (hair color, face structure, etc.)  
+3. 🧑‍🎨 GAN generates realistic face  
+4. 📑 PDF report is generated  
+5. 💾 Case history stored securely  
+6. 🗣️ Chatbot explains prediction to end-user
 
 ---
 
 ## 📁 Folder Structure
 
-CriminalFace/
+AI-Criminal-Face-Prediction/
 ├── app.py # Streamlit main app
-├── models/ # Trained GAN & ML models (ffhq.pkl - ignored)
-├── utils/ # Helper functions, trait prediction logic
-├── pages/ # Streamlit multipage support
-├── assets/ # Images, icons, logos
-├── chatbot/ # AI assistant module
-├── history.json # Case history storage
-├── requirements.txt # Dependencies
+├── models/ # Trained GAN & ML models
+├── utils/ # Helper functions
+├── pages/ # Streamlit multipage UI
+├── assets/ # Images, icons
+├── chatbot/ # AI chatbot module
+├── history.json # Prediction storage
+├── requirements.txt # Required dependencies
 └── README.md # This file
 
 
@@ -95,51 +95,42 @@ cd AI-Criminal-Face-Prediction
 pip install -r requirements.txt
 streamlit run app.py
 
- 
-## 🔮 Future Scope
-This project has vast potential across multiple domains:
+##🔮 Future Scope
+Forensic Investigations: Predict faces from DNA in unsolved crimes
 
-Forensic Investigations: Predict criminal faces from DNA found at crime scenes — even without eyewitnesses or CCTV.
+Border & National Security: Identify infiltrators using genetic evidence
 
-Border & National Security: Assist in identifying infiltrators or unknown suspects using DNA at border checkpoints or terrorist incidents.
+Missing Person Recovery: Predict visuals for lost individuals
 
-Missing Person Cases: Help trace lost or abducted individuals by generating predictive facial images using biological samples.
+Anti-Trafficking Investigations
 
-Anti-Trafficking Units: Support human trafficking investigations by reconstructing identities of victims when only DNA evidence is available.
+Disaster Victim Identification
 
-Post-Disaster Identification: Aid in identifying unknown deceased individuals during natural disasters or accidents using genetic material.
+AI Tools for Police Use
 
-AI-Powered Police Tools: Can be integrated into law enforcement tools for faster suspect generation and narrowing down potential matches.
+Genetic Research & Diagnosis
 
-Genetic Research: Opens new possibilities in genetic trait visualization, ancestry reconstruction, and personalized medicine (with ethical safeguards).first-responders' decision making.
+##🏆 Why It Should Win IDEA Hackathon 5.0
+This project stands at the intersection of AI innovation, national security, and societal impact. Here's why it deserves to win:
 
-4. 🏥 Healthcare & Genetic Research
-With ethical expansion, this model can support research on genetic conditions influencing facial traits, helping in early diagnosis.
+🚨 Real-World Relevance – Fights crime and helps law enforcement
 
-## 🏆 Why It Should Win IDEA Hackathon 5.0
-This project stands at the intersection of AI innovation, national security, and societal impact. Here's why it's a winning idea:
+🤖 Tech Uniqueness – Rare combo of DNA + GAN face generation
 
-🚨 Real-World Relevance: Tackles pressing problems like criminal identification, missing persons, and national security using cutting-edge AI.
+🧬 Smart Use of Data – Turns DNA into action
 
-🤖 Technological Uniqueness: Combines DNA analysis with AI-generated face reconstruction — a rare and powerful integration not commonly seen in India.
+🌍 Impact Potential – Scalable across multiple sectors
 
-🧬 Innovative Use of Data: Transforms raw biological data into meaningful visual output, aiding law enforcement beyond traditional methods.
+🚀 Deployment Ready – Working prototype with roadmap ahead
 
-🌍 High Impact Potential: Can scale to benefit border forces, anti-trafficking units, disaster recovery teams, and police investigations.
+🇮🇳 Aligns with “Make in India”, “Digital India”, and “AI for Good” missions.
 
-🚀 Ready for Real Deployment: Already working prototype with plans for API integration, ethical compliance, and real-world use cases.
 
-This project is not just about code — it's about saving lives, solving crimes, and protecting our nation. It embodies the spirit of Make in India, AI for Good, and Digital Empowerment — perfectly aligned with the vision of IDEA Hackathon 5.0.
-
-🙋‍♂️ Made by
+##🙋‍♂️ Made by
 Harsh Tomar
 B.Tech AI/ML Enthusiast | Forensic Innovation Researcher
 📧 harshtomat559@gmail.com
-🔗 GitHub | LinkedIn
+🔗 GitHub: HarshTomar2006
 
-📜 License
-MIT License
-
-
-
-Can also be repurposed for heritage reconstructions or visualizations in ancestry/genetic studies.
+##📜 License
+MIT License — Free to use, build, or expand with credit.
